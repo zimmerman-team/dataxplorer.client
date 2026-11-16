@@ -16,6 +16,22 @@ It makes use of [Data API Middleware](https://github.com/zimmerman.team/dx.serve
   - Frontend: <a href="https://github.com/zimmerman.team/dx.client" target="_blank">https://github.com/zimmerman.team/dx.client</a>
   - Backend: <a href="https://github.com/globalfund/data-explorer-server" target="_blank">https://github.com/zimmerman.team/dx.server</a>
 
+## Running it
+
+This repo has the same `make` commands as the other DX repos. It expects them side by side, as [infra.dx](https://github.com/zimmerman-team/DX) sets them up (`make repos` there); in particular, the charts come from `../rawgraphs-charts`.
+
+| Command | What it does |
+|---|---|
+| `make setup` | Install dependencies, build `../rawgraphs-charts` and link it in, create `.env` from `.env.example` |
+| `make dev` | Run the app on http://localhost:3000, reloading on changes |
+| `make charts` | Rebuild and relink rawgraphs-charts after changing it |
+| `make build` | Build the Docker image, as CI does |
+| `make lint` | Check formatting with Prettier, as CI does |
+
+`make dev` needs Node 22 (`nvm use`) and a running dx.server (`VITE_API` in `.env`). To run the whole DX stack, in Docker or not, use infra.dx.
+
+Production runs the Docker image: the built app, served by nginx. CI builds it on every push (`.github/workflows/image.yaml`) and infra.dx deploys it. The image reads its `VITE_*` settings when the container starts (the container writes them to `env.js`), so the same image runs in staging and production.
+
 ## Installation
 
 In order to be able to successfully run or build the app you need to create an environment file `.env` in the project root directory and fill it with the following:

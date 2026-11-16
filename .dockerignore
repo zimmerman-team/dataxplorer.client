@@ -1,0 +1,11 @@
+# Keep secrets, local builds and dependencies out of the image.
+.git
+.husky
+node_modules
+build
+prod
+staging
+rawgraphs-charts
+cypress
+.env
+.env.*
